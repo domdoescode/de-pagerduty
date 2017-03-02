@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strconv"
 	"strings"
 
 	"github.com/PagerDuty/go-pagerduty"
@@ -31,7 +32,19 @@ func (p *plugin) Match(input string, params slack.PostMessageParameters) slack.P
 		if len(inputParts) > 1 {
 			if inputParts[1] == "users" {
 				params.Attachments = append(params.Attachments, getUsers(client))
+				return params
+			}
 
+			if inputParts[1] == "mw" {
+				limit := 5
+				if len(inputParts) > 2 {
+					limit, _ = strconv.Atoi(inputParts[2])
+					if limit == 0 {
+						limit = 5
+					}
+				}
+
+				params.Attachments = append(params.Attachments, getMaintenanceWindows(client, uint(limit)))
 				return params
 			}
 		}
