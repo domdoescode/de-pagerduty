@@ -11,7 +11,7 @@ func (p *plugin) Match(input string) string {
 }
 
 func (p *plugin) GetName() string {
-	return "TODO"
+	return "pd"
 }
 
 func (p *plugin) Help() string {
